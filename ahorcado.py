@@ -22,11 +22,11 @@ class Jugador:
 
 def ahorcado():
     
-    listapalabras= ["apoyo","cerrar","imaginacion","amenaza","toque","viernes","hayan","roto","piloto","marca","combate","manejar","seccion","profundo","tantos","conocido","serie","contrato","americano","paseo","aviones","balas","repente","cambia","tropas","uso","detener","sabia","negra", "selva","museo","racismo","tractor","prensa","inspeccion"]
+    listapalabras= ["apoyo","cerrar","imaginacion","amenaza","toque","viernes","hayan","roto","piloto","marca","combate","manejar","seccion","profundo","tantos","conocido","serie","contrato","americano","paseo","aviones","balas","repente","cambia","tropas","uso","detener","sabia","negra", "selva","museo","racismo","tractor","prensa","inspeccion","acertijo", "helicoptero","negligencia"]
     palabraelegida= random.choice(listapalabras)
     letras_palabra=set()
     alfabeto= set(string.ascii_letters)
-    letras_usadas=set()
+    letras_usadas=set() #set de letras usadas
     errores=0
     puntos_juego=0
     
@@ -37,17 +37,17 @@ def ahorcado():
     for letra in palabraelegida:
         letras_palabra.add(letra)
     
-    while errores<6 and len(letras_palabra) >0:
-        lista_mostrar=[]
+    while errores<6 and len(letras_palabra) >0: #mientras haya menos de 6 intentos fallidos y la lista de letras de la palabra tenga letras se repite el input
+        lista_mostrar=[] #lista que muestra las letras adivinadas y líneas en lugar de las no adivinadas
         print("\nIntentos fallidos: ",errores)
         if len(letras_usadas)>0:
             print("\nLetras usadas: ",', '.join(letras_usadas))
 
         for letra in palabraelegida:  
             if letra in letras_usadas:
-                lista_mostrar.append(letra)
+                lista_mostrar.append(letra) #si es correcta se agrega la letra a la lista mostrar 
             else:
-                lista_mostrar.append("_")
+                lista_mostrar.append("_") #sino se agrega una línea
         
         #lista_mostrar=[letra if letra in letras_usadas else '_' for letra in palabraelegida]
 
@@ -55,9 +55,9 @@ def ahorcado():
 
         letraj= input("\nIngrese una letra: ")
 
-        if letraj in alfabeto and letraj not in letras_usadas:
+        if letraj in alfabeto and letraj not in letras_usadas: #si el carácter es correcto y no fue usado se evalúa
             letras_usadas.add(letraj)
-            if letraj in letras_palabra:
+            if letraj in letras_palabra: #si la letra es correcta se saca una letra de la lista de caracteres de la palabra para poder terminar el juego cuando todas hayan sido adivinadas
                 letras_palabra.remove(letraj)
                 puntos_juego+=1 
             else:
@@ -71,8 +71,8 @@ def ahorcado():
         
 
         
-
-    if len(letras_palabra) == 0:
+ ############### evaluación puntaje ###############
+    if len(letras_palabra) == 0: 
         print("\n",palabraelegida.upper())
         jugador1.setPuntuacion(puntos_juego)
         print(f'\nGanaste {jugador1.getNombre()}!')
