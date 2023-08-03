@@ -1,7 +1,16 @@
 import random
 import string
 import pickle
+import sqlite3
+from pprint import pprint
 
+#base de datos para las puntuaciones
+conn = sqlite3.connect('db_puntuaciones.db')
+cursor= conn.cursor()
+#q1='CREATE TABLE Puntuaciones (id integer PRIMARY KEY, Nombre text NOT NULL, Puntuacion integer NOT NULL);'
+#conn.execute(q1)
+
+#clase jugador
 class Jugador:
     
     def __init__(self, nombre):
@@ -19,6 +28,7 @@ class Jugador:
     def __init(self, nombre):
         super.__init__(nombre)
         self.puntuacion=0 """
+
 
 def ahorcado():
     
@@ -81,7 +91,20 @@ def ahorcado():
 
     print(f'\nTu puntuación es {jugador1.getPuntuacion()}')
     respuesta = input("¿Desea guardar su puntuación? SI(s) o NO (n): ")
+    
     if respuesta == 's':
+        q2=f'INSERT into Puntuaciones(Nombre,Puntuacion) VALUES("{jugador1.getNombre()}",{jugador1.getPuntuacion()});'
+        cursor.execute(q2)
+        conn.commit()
+
+    q3 = 'SELECT * FROM Puntuaciones;'
+    cursor.execute(q3)
+    print('Puntuaciones: \n' )
+    for fila in cursor.fetchall():
+        print('Nombre: ', fila[1],'\n',
+              'Puntuación: ', fila[2])
+    
+    """ if respuesta == 's':
         f = open('puntuaciones.dat', 'ab+')
         pickle.dump(jugador1,f)
         f.close()
@@ -97,9 +120,13 @@ def ahorcado():
     print(puntuaciones_totales)
     
     print(f'Nombre: {datos.nombre} \nPuntuación: {datos.puntuacion}')
-    l.close()
-        
-ahorcado()
+    l.close() """
+         
+    
+    
+if __name__ == '__main__':
+    ahorcado()
+
 
 
         
